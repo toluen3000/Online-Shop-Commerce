@@ -1,14 +1,20 @@
 package com.example.project_onlineshopecommerce.Activity
 
 import android.os.Bundle
+import android.provider.ContactsContract.Data
 import android.transition.Slide
 import android.view.View
+import android.widget.LinearLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.GONE
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.RecyclerView.Recycler
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.example.project_onlineshopecommerce.Adapter.SliderAdapter
+import com.example.project_onlineshopecommerce.Data.CategoryDomain
 import com.example.project_onlineshopecommerce.Data.SliderItems
 import com.example.project_onlineshopecommerce.databinding.ActivityMainBinding
 import com.google.firebase.database.DataSnapshot
@@ -27,10 +33,38 @@ class MainActivity : BaseActivity() {
 
         //lay banner tu firebase
         initBanner()
+        //lay du
+        initCategory()
 
     }
 
+    private fun initCategory() {
+        databaseRef = databaseRef.database.getReference("Category")
+        binding.progressBarOfficial.visibility = View.VISIBLE
+        var items: ArrayList<CategoryDomain> = arrayListOf()
+        databaseRef.addListenerForSingleValueEvent(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()){
+                    for (issue in snapshot.children){
+                        items.add(issue.getValue(CategoryDomain::class.java)!!)
+                    }
+                    if (!items.isEmpty()){
+                        binding.recyclerViewOfficial.layoutManager = LinearLayoutManager(this@MainActivity,
+                            LinearLayoutManager.HORIZONTAL,false)
+                    }
+                    binding.progressBarOfficial.visibility = View.GONE
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
+    }
+
     private fun initBanner() {
+        //databaseRef = databaseRef.database.getReference("Banner")
         databaseRef = FirebaseDatabase.getInstance().getReference("Banner")
         binding.progressBarBanner.visibility = View.VISIBLE
 
@@ -48,13 +82,14 @@ class MainActivity : BaseActivity() {
 
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+
             }
 
         })
     }
 
     private fun banners(slideList: ArrayList<SliderItems>) {
+
         binding.viewpageSlider.adapter = SliderAdapter(slideList,binding.viewpageSlider)
         binding.viewpageSlider.clipToPadding = false
         binding.viewpageSlider.clipChildren = false
@@ -66,7 +101,6 @@ class MainActivity : BaseActivity() {
         }
         //5154
         binding.viewpageSlider.setPageTransformer(compositePageTransformer)
-
 
     }
 }

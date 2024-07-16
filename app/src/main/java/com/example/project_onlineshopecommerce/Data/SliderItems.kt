@@ -1,16 +1,15 @@
 package com.example.project_onlineshopecommerce.Data
 
-class SliderItems {
-     var url:String = ""
+data class SliderItems(val url:String)
+    // var url:String = ""
 
-    var _url:String
-        get() {return url}
-        set(value) {url = value}
+//    var _url:String
+//        get() {return url}
+//        set(value) {url = value}
+//
+//    //constructor
+//    constructor()
+//    constructor(url: String) {
+//        this.url = url
+//    }
 
-    //constructor
-    constructor()
-    constructor(url: String) {
-        this.url = url
-    }
-
-}

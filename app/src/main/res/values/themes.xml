@@ -5,5 +5,7 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.Project_OnlineShopEcommerce" parent="Base.Theme.Project_OnlineShopEcommerce" />
+    <style name="Theme.Project_OnlineShopEcommerce" parent="Base.Theme.Project_OnlineShopEcommerce" >
+<!--        <item name="android:windowTranslucentNavigation"> true </item>-->
+    </style>
 </resources>

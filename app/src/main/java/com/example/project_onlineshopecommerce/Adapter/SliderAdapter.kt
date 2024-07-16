@@ -12,12 +12,14 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
 import com.example.project_onlineshopecommerce.Data.SliderItems
 import com.example.project_onlineshopecommerce.R
+import com.google.firebase.Firebase
 
 
 class SliderAdapter(): RecyclerView.Adapter<SliderAdapter.SlideViewHolder>() {
     private lateinit var slideItems: ArrayList<SliderItems>
     private lateinit var viewPager2: ViewPager2
     private lateinit var context: Context
+
     private var runnable = object :Runnable{
         override fun run() {
             slideItems.addAll(slideItems)
@@ -59,7 +61,7 @@ class SliderAdapter(): RecyclerView.Adapter<SliderAdapter.SlideViewHolder>() {
 
     override fun onBindViewHolder(holder: SlideViewHolder, position: Int) {
         holder.setImage(slideItems.get(position))
-        if (position == slideItems.size - 1){
+        if (position == slideItems.size - 2 ){
             viewPager2.post(runnable)
         }
     }
